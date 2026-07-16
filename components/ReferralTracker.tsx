@@ -63,7 +63,8 @@ export default function ReferralTracker() {
         <div>
           <h2 className="font-semibold text-pino-oscuro">🎁 Programa de referidos</h2>
           <p className="mt-1 max-w-md text-sm text-stone-600">
-            Comparte tu código. Cuando tu referido cumpla{" "}
+            Comparte tu código y ganan los dos: tu referido recibe{" "}
+            <strong>su sexto mes gratis</strong>, y cuando cumpla{" "}
             <strong>{MESES_META} meses de suscripción</strong>, tú recibes{" "}
             <strong>1 mes gratis</strong>. Sin límite de referidos.
           </p>

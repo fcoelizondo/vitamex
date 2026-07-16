@@ -118,7 +118,7 @@ const faqs = [
   {
     pregunta: "¿Cómo funciona el programa de referidos?",
     respuesta:
-      "Comparte tu código personal desde tu portal. Cuando alguien se suscribe con tu código y cumple 6 meses de suscripción activa, tú recibes 1 mes gratis, aplicado automáticamente a tu siguiente cobro. No hay límite de referidos, y puedes seguir el avance de cada uno desde el rastreador en tu cuenta.",
+      "Ganan los dos. Si te suscribes con el código de un amigo, tu sexto mes es gratis. Y cuando tu referido cumple 6 meses de suscripción activa, tú recibes 1 mes gratis, aplicado automáticamente a tu siguiente cobro. No hay límite de referidos, y puedes seguir el avance de cada uno desde el rastreador en tu cuenta.",
   },
   {
     pregunta: "¿Hacen envíos a todo México?",
