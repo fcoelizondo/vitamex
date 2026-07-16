@@ -116,6 +116,11 @@ const faqs = [
       "No. Los suplementos no son medicamentos y no sustituyen una alimentación equilibrada ni la atención médica. Si tomas medicamentos o tienes una condición de salud, consulta a tu médico antes de empezar.",
   },
   {
+    pregunta: "¿Cómo funciona el programa de referidos?",
+    respuesta:
+      "Comparte tu código personal desde tu portal. Cuando alguien se suscribe con tu código y cumple 6 meses de suscripción activa, tú recibes 1 mes gratis, aplicado automáticamente a tu siguiente cobro. No hay límite de referidos, y puedes seguir el avance de cada uno desde el rastreador en tu cuenta.",
+  },
+  {
     pregunta: "¿Hacen envíos a todo México?",
     respuesta:
       "Sí, enviamos a todo el país y el costo ya está incluido en tu suscripción. El primer envío llega en 2 a 5 días hábiles.",

@@ -86,6 +86,13 @@ export default function Checkout() {
               <input required placeholder="Nombre completo" className="rounded-xl border border-stone-300 px-4 py-3 text-sm outline-none focus:border-pino" />
               <input required type="email" placeholder="Correo electrónico" className="rounded-xl border border-stone-300 px-4 py-3 text-sm outline-none focus:border-pino" />
               <input required type="tel" placeholder="WhatsApp / teléfono" className="rounded-xl border border-stone-300 px-4 py-3 text-sm outline-none focus:border-pino sm:col-span-2" />
+              <div className="sm:col-span-2">
+                <input placeholder="Código de referido (opcional)" className="w-full rounded-xl border border-stone-300 px-4 py-3 text-sm outline-none focus:border-pino" />
+                <p className="mt-2 text-xs text-stone-400">
+                  ¿Te invitó un amigo? Ingresa su código: cuando cumplas 6 meses
+                  de suscripción, tu amigo recibe 1 mes gratis.
+                </p>
+              </div>
             </div>
           </fieldset>
 

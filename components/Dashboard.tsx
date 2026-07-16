@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useState } from "react";
 import { formatMXN } from "@/lib/products";
+import ReferralTracker from "@/components/ReferralTracker";
 
 const historial = [
   { fecha: "15 junio 2026", estado: "Entregado", total: 699 },
@@ -101,19 +102,7 @@ export default function Dashboard() {
       </div>
 
       {/* Referidos */}
-      <div className="mt-8 rounded-2xl border border-amber-200 bg-amber-50 p-6 sm:flex sm:items-center sm:justify-between">
-        <div>
-          <h2 className="font-semibold text-pino-oscuro">
-            🎁 Invita a un amigo
-          </h2>
-          <p className="mt-1 text-sm text-stone-600">
-            Ambos reciben un mes con descuento o un producto gratis.
-          </p>
-        </div>
-        <button className="mt-4 rounded-full bg-pino px-6 py-3 text-sm font-semibold text-white transition hover:bg-pino-oscuro sm:mt-0">
-          Copiar mi código: FRAN-30
-        </button>
-      </div>
+      <ReferralTracker />
 
       <p className="mt-8 text-center text-sm text-stone-400">
         ¿Dudas sobre tu rutina?{" "}
