@@ -101,6 +101,47 @@ export default function Dashboard() {
         </div>
       </div>
 
+      {/* Mi hogar */}
+      <div className="mt-8 rounded-2xl border border-stone-200 bg-white p-6">
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+          <div>
+            <h2 className="font-semibold text-pino-oscuro">🏠 Mi hogar</h2>
+            <p className="mt-1 max-w-md text-sm text-stone-600">
+              Las suscripciones adicionales de tu hogar —mismo domicilio, mismo
+              envío y misma frecuencia— tienen{" "}
+              <strong className="text-pino">15% de descuento</strong>.
+            </p>
+          </div>
+          <button className="shrink-0 rounded-full border border-pino px-6 py-3 text-sm font-semibold text-pino transition hover:bg-pino hover:text-white">
+            + Agregar persona
+          </button>
+        </div>
+        <div className="mt-4 divide-y divide-stone-100">
+          <div className="flex items-center justify-between py-3 text-sm">
+            <div>
+              <p className="font-medium text-stone-700">Francisco (tú)</p>
+              <p className="text-xs text-stone-400">Pack Daily Essentials + Magnesio</p>
+            </div>
+            <span className="font-medium text-stone-700">{formatMXN(898)}/mes</span>
+          </div>
+          <div className="flex items-center justify-between py-3 text-sm">
+            <div>
+              <p className="font-medium text-stone-700">
+                Andrea{" "}
+                <span className="rounded bg-pino-claro px-1.5 py-0.5 text-xs font-semibold text-pino">
+                  -15% hogar
+                </span>
+              </p>
+              <p className="text-xs text-stone-400">Pack Energía · mismo envío</p>
+            </div>
+            <span className="flex items-center gap-2 font-medium text-stone-700">
+              <span className="text-xs text-stone-400 line-through">{formatMXN(699)}</span>
+              {formatMXN(594)}/mes
+            </span>
+          </div>
+        </div>
+      </div>
+
       {/* Referidos */}
       <ReferralTracker />
 

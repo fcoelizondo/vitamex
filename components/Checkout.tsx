@@ -3,13 +3,20 @@
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { useState } from "react";
-import { getPack, getProducto, formatMXN } from "@/lib/products";
+import { getPack, getProducto, formatMXN, packs } from "@/lib/products";
 
 const PRECIO_EXTRA = 199;
+const DESCUENTO_HOGAR = 0.15;
+
+function precioConDescuentoHogar(precio: number) {
+  return Math.round(precio * (1 - DESCUENTO_HOGAR));
+}
 
 export default function Checkout() {
   const params = useSearchParams();
   const [confirmado, setConfirmado] = useState(false);
+  const [hogar, setHogar] = useState<string[]>([]);
+  const [packHogarSel, setPackHogarSel] = useState(packs[0].id);
 
   const pack = getPack(params.get("pack") || "daily-essentials");
   const extras = (params.get("extras") || "")
@@ -34,7 +41,16 @@ export default function Checkout() {
     );
   }
 
-  const total = pack.precioMensual + extras.length * PRECIO_EXTRA;
+  const totalHogar = hogar.reduce(
+    (suma, id) => suma + precioConDescuentoHogar(getPack(id)!.precioMensual),
+    0
+  );
+  const ahorroHogar = hogar.reduce(
+    (suma, id) =>
+      suma + getPack(id)!.precioMensual - precioConDescuentoHogar(getPack(id)!.precioMensual),
+    0
+  );
+  const total = pack.precioMensual + extras.length * PRECIO_EXTRA + totalHogar;
 
   if (confirmado) {
     return (
@@ -112,6 +128,72 @@ export default function Checkout() {
 
           <fieldset className="rounded-2xl border border-stone-200 bg-white p-6">
             <legend className="px-2 text-sm font-semibold text-pino-oscuro">
+              ¿Alguien más en casa? 👨‍👩‍👧
+            </legend>
+            <p className="text-sm text-stone-600">
+              Agrega la rutina de otra persona de tu hogar al mismo envío
+              (mismo domicilio y misma frecuencia) y su suscripción tiene{" "}
+              <strong className="text-pino">15% de descuento</strong>. Aplica a
+              cada suscripción adicional.
+            </p>
+            <div className="mt-4 flex flex-col gap-3 sm:flex-row">
+              <select
+                value={packHogarSel}
+                onChange={(e) => setPackHogarSel(e.target.value)}
+                className="flex-1 rounded-xl border border-stone-300 bg-white px-4 py-3 text-sm outline-none focus:border-pino"
+                aria-label="Paquete para otra persona del hogar"
+              >
+                {packs.map((p) => (
+                  <option key={p.id} value={p.id}>
+                    {p.nombre} — {formatMXN(precioConDescuentoHogar(p.precioMensual))}/mes (antes {formatMXN(p.precioMensual)})
+                  </option>
+                ))}
+              </select>
+              <button
+                type="button"
+                onClick={() => setHogar([...hogar, packHogarSel])}
+                className="rounded-xl border border-pino px-5 py-3 text-sm font-semibold text-pino transition hover:bg-pino hover:text-white"
+              >
+                + Agregar persona
+              </button>
+            </div>
+            {hogar.length > 0 && (
+              <div className="mt-4 space-y-2">
+                {hogar.map((id, i) => {
+                  const p = getPack(id)!;
+                  return (
+                    <div
+                      key={`${id}-${i}`}
+                      className="flex items-center justify-between rounded-xl bg-pino-claro px-4 py-3 text-sm"
+                    >
+                      <span className="font-medium text-pino-oscuro">
+                        {p.emoji} Persona {i + 2} · Pack {p.nombre}
+                      </span>
+                      <span className="flex items-center gap-3">
+                        <span className="text-stone-400 line-through">
+                          {formatMXN(p.precioMensual)}
+                        </span>
+                        <span className="font-semibold text-pino">
+                          {formatMXN(precioConDescuentoHogar(p.precioMensual))}/mes
+                        </span>
+                        <button
+                          type="button"
+                          onClick={() => setHogar(hogar.filter((_, j) => j !== i))}
+                          aria-label="Quitar persona"
+                          className="text-stone-400 transition hover:text-red-500"
+                        >
+                          ✕
+                        </button>
+                      </span>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+          </fieldset>
+
+          <fieldset className="rounded-2xl border border-stone-200 bg-white p-6">
+            <legend className="px-2 text-sm font-semibold text-pino-oscuro">
               Pago seguro
             </legend>
             <div className="grid gap-4 sm:grid-cols-2">
@@ -164,6 +246,28 @@ export default function Checkout() {
                   <span className="font-medium">{formatMXN(PRECIO_EXTRA)}</span>
                 </div>
               ))}
+              {hogar.map((id, i) => {
+                const p = getPack(id)!;
+                return (
+                  <div key={`resumen-${id}-${i}`} className="flex justify-between">
+                    <span className="text-stone-500">
+                      Persona {i + 2} · {p.nombre}{" "}
+                      <span className="rounded bg-pino-claro px-1.5 py-0.5 text-xs font-semibold text-pino">
+                        -15%
+                      </span>
+                    </span>
+                    <span className="font-medium">
+                      {formatMXN(precioConDescuentoHogar(p.precioMensual))}
+                    </span>
+                  </div>
+                );
+              })}
+              {ahorroHogar > 0 && (
+                <div className="flex justify-between text-pino">
+                  <span>Ahorro hogar</span>
+                  <span className="font-medium">−{formatMXN(ahorroHogar)}/mes</span>
+                </div>
+              )}
               <div className="flex justify-between">
                 <span className="text-stone-500">Envío</span>
                 <span className="font-medium text-pino">Incluido</span>

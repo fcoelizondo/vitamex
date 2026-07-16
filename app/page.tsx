@@ -116,6 +116,11 @@ const faqs = [
       "No. Los suplementos no son medicamentos y no sustituyen una alimentación equilibrada ni la atención médica. Si tomas medicamentos o tienes una condición de salud, consulta a tu médico antes de empezar.",
   },
   {
+    pregunta: "¿Hay descuento si somos varios en casa?",
+    respuesta:
+      "Sí. Cuando se agrega más de una suscripción al mismo domicilio, con el mismo envío y la misma frecuencia, cada suscripción adicional tiene 15% de descuento. Todo llega en un solo paquete y cada persona conserva su rutina personalizada.",
+  },
+  {
     pregunta: "¿Cómo funciona el programa de referidos?",
     respuesta:
       "Ganan los dos. Si te suscribes con el código de un amigo, tu sexto mes es gratis. Y cuando tu referido cumple 6 meses de suscripción activa, tú recibes 1 mes gratis, aplicado automáticamente a tu siguiente cobro. No hay límite de referidos, y puedes seguir el avance de cada uno desde el rastreador en tu cuenta.",

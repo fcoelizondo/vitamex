@@ -25,6 +25,10 @@ export default function PaquetesPage() {
         >
           ¿No sabes cuál elegir? Haz la evaluación →
         </Link>
+        <p className="mt-6 rounded-2xl bg-pino-claro px-6 py-4 text-sm text-pino-oscuro">
+          🏠 <strong>Descuento hogar:</strong> agrega a otra persona de tu casa
+          al mismo envío y su suscripción tiene <strong>15% de descuento</strong>.
+        </p>
       </div>
 
       <div className="mt-16 space-y-8">
