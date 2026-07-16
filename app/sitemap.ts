@@ -1,6 +1,8 @@
 import type { MetadataRoute } from "next";
 import { articulos } from "@/lib/articles";
 
+export const dynamic = "force-static";
+
 const BASE = "https://vitamex.mx";
 
 export default function sitemap(): MetadataRoute.Sitemap {
