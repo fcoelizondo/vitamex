@@ -1,0 +1,17 @@
+@import "tailwindcss";
+
+@theme {
+  --color-crema: #faf7f2;
+  --color-pino: #1a4d3c;
+  --color-pino-oscuro: #123528;
+  --color-pino-claro: #eaf3ee;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif;
+}
