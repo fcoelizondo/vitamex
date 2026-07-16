@@ -107,9 +107,9 @@ export default function Dashboard() {
           <div>
             <h2 className="font-semibold text-pino-oscuro">🏠 Mi hogar</h2>
             <p className="mt-1 max-w-md text-sm text-stone-600">
-              Las suscripciones adicionales de tu hogar —mismo domicilio, mismo
-              envío y misma frecuencia— tienen{" "}
-              <strong className="text-pino">15% de descuento</strong>.
+              Con más de una suscripción en tu hogar —mismo domicilio, envío y
+              frecuencia— el paquete más caro paga precio completo y todos los
+              demás tienen <strong className="text-pino">15% de descuento</strong>.
             </p>
           </div>
           <button className="shrink-0 rounded-full border border-pino px-6 py-3 text-sm font-semibold text-pino transition hover:bg-pino hover:text-white">

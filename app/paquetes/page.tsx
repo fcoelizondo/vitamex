@@ -26,8 +26,9 @@ export default function PaquetesPage() {
           ¿No sabes cuál elegir? Haz la evaluación →
         </Link>
         <p className="mt-6 rounded-2xl bg-pino-claro px-6 py-4 text-sm text-pino-oscuro">
-          🏠 <strong>Descuento hogar:</strong> agrega a otra persona de tu casa
-          al mismo envío y su suscripción tiene <strong>15% de descuento</strong>.
+          🏠 <strong>Descuento hogar:</strong> con más de una suscripción al
+          mismo envío, el paquete más caro paga precio completo y todos los
+          demás tienen <strong>15% de descuento</strong>.
         </p>
       </div>
 

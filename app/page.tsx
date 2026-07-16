@@ -118,7 +118,7 @@ const faqs = [
   {
     pregunta: "¿Hay descuento si somos varios en casa?",
     respuesta:
-      "Sí. Cuando se agrega más de una suscripción al mismo domicilio, con el mismo envío y la misma frecuencia, cada suscripción adicional tiene 15% de descuento. Todo llega en un solo paquete y cada persona conserva su rutina personalizada.",
+      "Sí. Cuando hay más de una suscripción en el mismo domicilio, con el mismo envío y la misma frecuencia, el paquete más caro del hogar paga precio completo y todas las demás suscripciones tienen 15% de descuento, sin importar quién se suscribió primero. Todo llega en un solo paquete y cada persona conserva su rutina personalizada.",
   },
   {
     pregunta: "¿Cómo funciona el programa de referidos?",

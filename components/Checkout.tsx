@@ -41,16 +41,26 @@ export default function Checkout() {
     );
   }
 
-  const totalHogar = hogar.reduce(
-    (suma, id) => suma + precioConDescuentoHogar(getPack(id)!.precioMensual),
-    0
-  );
-  const ahorroHogar = hogar.reduce(
-    (suma, id) =>
-      suma + getPack(id)!.precioMensual - precioConDescuentoHogar(getPack(id)!.precioMensual),
-    0
-  );
-  const total = pack.precioMensual + extras.length * PRECIO_EXTRA + totalHogar;
+  // Regla hogar: el paquete más caro del hogar paga precio completo (base);
+  // todas las demás suscripciones llevan el 15%, sin importar el orden.
+  const suscripciones = [pack.id, ...hogar];
+  const precios = suscripciones.map((id) => getPack(id)!.precioMensual);
+  const idxBase = precios.indexOf(Math.max(...precios));
+  const lineas = suscripciones.map((id, i) => {
+    const precioLista = getPack(id)!.precioMensual;
+    const esBase = i === idxBase || suscripciones.length === 1;
+    return {
+      id,
+      esBase,
+      precioLista,
+      precio: esBase ? precioLista : precioConDescuentoHogar(precioLista),
+    };
+  });
+  const lineaPrincipal = lineas[0];
+  const lineasHogar = lineas.slice(1);
+  const ahorroHogar = lineas.reduce((s, l) => s + (l.precioLista - l.precio), 0);
+  const total =
+    lineas.reduce((s, l) => s + l.precio, 0) + extras.length * PRECIO_EXTRA;
 
   if (confirmado) {
     return (
@@ -132,9 +142,12 @@ export default function Checkout() {
             </legend>
             <p className="text-sm text-stone-600">
               Agrega la rutina de otra persona de tu hogar al mismo envío
-              (mismo domicilio y misma frecuencia) y su suscripción tiene{" "}
-              <strong className="text-pino">15% de descuento</strong>. Aplica a
-              cada suscripción adicional.
+              (mismo domicilio y misma frecuencia). El paquete más caro del
+              hogar paga precio completo y{" "}
+              <strong className="text-pino">
+                todos los demás tienen 15% de descuento
+              </strong>
+              , sin importar quién se suscribió primero.
             </p>
             <div className="mt-4 flex flex-col gap-3 sm:flex-row">
               <select
@@ -145,7 +158,7 @@ export default function Checkout() {
               >
                 {packs.map((p) => (
                   <option key={p.id} value={p.id}>
-                    {p.nombre} — {formatMXN(precioConDescuentoHogar(p.precioMensual))}/mes (antes {formatMXN(p.precioMensual)})
+                    {p.nombre} — {formatMXN(p.precioMensual)}/mes
                   </option>
                 ))}
               </select>
@@ -157,24 +170,31 @@ export default function Checkout() {
                 + Agregar persona
               </button>
             </div>
-            {hogar.length > 0 && (
+            {lineasHogar.length > 0 && (
               <div className="mt-4 space-y-2">
-                {hogar.map((id, i) => {
-                  const p = getPack(id)!;
+                {lineasHogar.map((linea, i) => {
+                  const p = getPack(linea.id)!;
                   return (
                     <div
-                      key={`${id}-${i}`}
+                      key={`${linea.id}-${i}`}
                       className="flex items-center justify-between rounded-xl bg-pino-claro px-4 py-3 text-sm"
                     >
                       <span className="font-medium text-pino-oscuro">
                         {p.emoji} Persona {i + 2} · Pack {p.nombre}
+                        {linea.esBase && (
+                          <span className="ml-2 rounded bg-white px-1.5 py-0.5 text-xs font-semibold text-stone-500">
+                            Paquete base
+                          </span>
+                        )}
                       </span>
                       <span className="flex items-center gap-3">
-                        <span className="text-stone-400 line-through">
-                          {formatMXN(p.precioMensual)}
-                        </span>
+                        {!linea.esBase && (
+                          <span className="text-stone-400 line-through">
+                            {formatMXN(linea.precioLista)}
+                          </span>
+                        )}
                         <span className="font-semibold text-pino">
-                          {formatMXN(precioConDescuentoHogar(p.precioMensual))}/mes
+                          {formatMXN(linea.precio)}/mes
                         </span>
                         <button
                           type="button"
@@ -188,6 +208,13 @@ export default function Checkout() {
                     </div>
                   );
                 })}
+                {!lineaPrincipal.esBase && (
+                  <p className="rounded-xl bg-amber-50 px-4 py-3 text-xs text-amber-900">
+                    Tu paquete ({pack.nombre}) es el más barato del hogar, así
+                    que el 15% de descuento se aplica al tuyo. El paquete más
+                    caro del hogar paga precio completo.
+                  </p>
+                )}
               </div>
             )}
           </fieldset>
@@ -235,8 +262,15 @@ export default function Checkout() {
             </div>
             <div className="mt-4 space-y-2 border-t border-stone-100 pt-4 text-sm">
               <div className="flex justify-between">
-                <span className="text-stone-500">Pack {pack.nombre}</span>
-                <span className="font-medium">{formatMXN(pack.precioMensual)}</span>
+                <span className="text-stone-500">
+                  Pack {pack.nombre}{" "}
+                  {!lineaPrincipal.esBase && (
+                    <span className="rounded bg-pino-claro px-1.5 py-0.5 text-xs font-semibold text-pino">
+                      -15%
+                    </span>
+                  )}
+                </span>
+                <span className="font-medium">{formatMXN(lineaPrincipal.precio)}</span>
               </div>
               {extras.map((p) => (
                 <div key={p.id} className="flex justify-between">
@@ -246,19 +280,19 @@ export default function Checkout() {
                   <span className="font-medium">{formatMXN(PRECIO_EXTRA)}</span>
                 </div>
               ))}
-              {hogar.map((id, i) => {
-                const p = getPack(id)!;
+              {lineasHogar.map((linea, i) => {
+                const p = getPack(linea.id)!;
                 return (
-                  <div key={`resumen-${id}-${i}`} className="flex justify-between">
+                  <div key={`resumen-${linea.id}-${i}`} className="flex justify-between">
                     <span className="text-stone-500">
                       Persona {i + 2} · {p.nombre}{" "}
-                      <span className="rounded bg-pino-claro px-1.5 py-0.5 text-xs font-semibold text-pino">
-                        -15%
-                      </span>
+                      {!linea.esBase && (
+                        <span className="rounded bg-pino-claro px-1.5 py-0.5 text-xs font-semibold text-pino">
+                          -15%
+                        </span>
+                      )}
                     </span>
-                    <span className="font-medium">
-                      {formatMXN(precioConDescuentoHogar(p.precioMensual))}
-                    </span>
+                    <span className="font-medium">{formatMXN(linea.precio)}</span>
                   </div>
                 );
               })}
